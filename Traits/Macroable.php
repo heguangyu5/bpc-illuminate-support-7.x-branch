@@ -37,19 +37,19 @@ trait Macroable
      *
      * @throws \ReflectionException
      */
-    public static function mixin($mixin, $replace = true)
-    {
-        $methods = (new ReflectionClass($mixin))->getMethods(
-            ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
-        );
+//    public static function mixin($mixin, $replace = true)
+//    {
+//        $methods = (new ReflectionClass($mixin))->getMethods(
+//            ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
+//        );
 
-        foreach ($methods as $method) {
-            if ($replace || ! static::hasMacro($method->name)) {
-                $method->setAccessible(true);
-                static::macro($method->name, $method->invoke($mixin));
-            }
-        }
-    }
+//        foreach ($methods as $method) {
+//            if ($replace || ! static::hasMacro($method->name)) {
+//                $method->setAccessible(true);
+//                static::macro($method->name, $method->invoke($mixin));
+//            }
+//        }
+//    }
 
     /**
      * Checks if macro is registered.

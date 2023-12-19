@@ -208,13 +208,13 @@ class LazyCollection implements Enumerable
      */
     public function contains($key, $operator = null, $value = null)
     {
-        if (func_num_args() === 1 && $this->useAsCallable($key)) {
+        if (is_null($operator) && is_null($value) && $this->useAsCallable($key)) {
             $placeholder = new stdClass;
 
             return $this->first($key, $placeholder) !== $placeholder;
         }
 
-        if (func_num_args() === 1) {
+        if (is_null($operator) && is_null($value)) {
             $needle = $key;
 
             foreach ($this as $value) {
@@ -226,7 +226,7 @@ class LazyCollection implements Enumerable
             return false;
         }
 
-        return $this->contains($this->operatorForWhere(...func_get_args()));
+        return $this->contains($this->operatorForWhere($key, $operator, $value));
     }
 
     /**

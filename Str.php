@@ -93,10 +93,10 @@ class Str
      * @param  string  $language
      * @return string
      */
-    public static function ascii($value, $language = 'en')
-    {
-        return ASCII::to_ascii((string) $value, $language);
-    }
+//    public static function ascii($value, $language = 'en')
+//    {
+//        return ASCII::to_ascii((string) $value, $language);
+//    }
 
     /**
      * Get the portion of a string before the first occurrence of a given value.
@@ -276,10 +276,10 @@ class Str
      * @param  string  $value
      * @return bool
      */
-    public static function isAscii($value)
-    {
-        return ASCII::is_ascii((string) $value);
-    }
+//    public static function isAscii($value)
+//    {
+//        return ASCII::is_ascii((string) $value);
+//    }
 
     /**
      * Determine if a given string is a valid UUID.
@@ -485,7 +485,8 @@ class Str
         $result = array_shift($segments);
 
         foreach ($segments as $segment) {
-            $result .= (array_shift($replace) ?? $search).$segment;
+            $tmp = array_shift($replace);
+            $result .= ($tmp ?? $search).$segment;
         }
 
         return $result;
@@ -721,37 +722,37 @@ class Str
      *
      * @return \Ramsey\Uuid\UuidInterface
      */
-    public static function uuid()
-    {
-        return static::$uuidFactory
-                    ? call_user_func(static::$uuidFactory)
-                    : Uuid::uuid4();
-    }
+//    public static function uuid()
+//    {
+//        return static::$uuidFactory
+//                    ? call_user_func(static::$uuidFactory)
+//                    : Uuid::uuid4();
+//    }
 
     /**
      * Generate a time-ordered UUID (version 4).
      *
      * @return \Ramsey\Uuid\UuidInterface
      */
-    public static function orderedUuid()
-    {
-        if (static::$uuidFactory) {
-            return call_user_func(static::$uuidFactory);
-        }
+//    public static function orderedUuid()
+//    {
+//        if (static::$uuidFactory) {
+//            return call_user_func(static::$uuidFactory);
+//        }
 
-        $factory = new UuidFactory();
+//        $factory = new UuidFactory();
 
-        $factory->setRandomGenerator(new CombGenerator(
-            $factory->getRandomGenerator(),
-            $factory->getNumberConverter()
-        ));
+//        $factory->setRandomGenerator(new CombGenerator(
+//            $factory->getRandomGenerator(),
+//            $factory->getNumberConverter()
+//        ));
 
-        $factory->setCodec(new TimestampFirstCombCodec(
-            $factory->getUuidBuilder()
-        ));
+//        $factory->setCodec(new TimestampFirstCombCodec(
+//            $factory->getUuidBuilder()
+//        ));
 
-        return $factory->uuid4();
-    }
+//        return $factory->uuid4();
+//    }
 
     /**
      * Set the callable that will be used to generate UUIDs.

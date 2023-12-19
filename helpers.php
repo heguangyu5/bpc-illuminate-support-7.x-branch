@@ -199,12 +199,12 @@ if (! function_exists('data_set')) {
             }
 
             if ($segments) {
-                foreach ($target as &$inner) {
-                    data_set($inner, $segments, $value, $overwrite);
+                foreach ($target as $idx => $inner) {
+                    data_set($target[$idx], $segments, $value, $overwrite);
                 }
             } elseif ($overwrite) {
-                foreach ($target as &$inner) {
-                    $inner = $value;
+                foreach ($target as $idx => $inner) {
+                    $target[$idx] = $value;
                 }
             }
         } elseif (Arr::accessible($target)) {
@@ -273,6 +273,9 @@ if (! function_exists('env')) {
      */
     function env($key, $default = null)
     {
+        throw new Exception('BPC TODO');
+        return; // bpc will drop statements after return
+
         return Env::get($key, $default);
     }
 }
@@ -396,22 +399,21 @@ if (! function_exists('retry')) {
     {
         $attempts = 0;
 
-        beginning:
-        $attempts++;
-        $times--;
+        while (true) {
+            $attempts++;
+            $times--;
 
-        try {
-            return $callback($attempts);
-        } catch (Exception $e) {
-            if ($times < 1 || ($when && ! $when($e))) {
-                throw $e;
+            try {
+                return $callback($attempts);
+            } catch (Exception $e) {
+                if ($times < 1 || ($when && ! $when($e))) {
+                    throw $e;
+                }
+
+                if ($sleep) {
+                    usleep($sleep * 1000);
+                }
             }
-
-            if ($sleep) {
-                usleep($sleep * 1000);
-            }
-
-            goto beginning;
         }
     }
 }

@@ -689,12 +689,12 @@ class Stringable
      *
      * @return $this
      */
-    public function dump()
-    {
-        VarDumper::dump($this->value);
+//    public function dump()
+//    {
+//        VarDumper::dump($this->value);
 
-        return $this;
-    }
+//        return $this;
+//    }
 
     /**
      * Dump the string and end the script.

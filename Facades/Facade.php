@@ -47,16 +47,16 @@ abstract class Facade
      *
      * @return \Mockery\MockInterface
      */
-    public static function spy()
-    {
-        if (! static::isMock()) {
-            $class = static::getMockableClass();
+//    public static function spy()
+//    {
+//        if (! static::isMock()) {
+//            $class = static::getMockableClass();
 
-            return tap($class ? Mockery::spy($class) : Mockery::spy(), function ($spy) {
-                static::swap($spy);
-            });
-        }
-    }
+//            return tap($class ? Mockery::spy($class) : Mockery::spy(), function ($spy) {
+//                static::swap($spy);
+//            });
+//        }
+//    }
 
     /**
      * Initiate a partial mock on the facade.
@@ -109,25 +109,25 @@ abstract class Facade
      *
      * @return \Mockery\MockInterface
      */
-    protected static function createMock()
-    {
-        $class = static::getMockableClass();
+//    protected static function createMock()
+//    {
+//        $class = static::getMockableClass();
 
-        return $class ? Mockery::mock($class) : Mockery::mock();
-    }
+//        return $class ? Mockery::mock($class) : Mockery::mock();
+//    }
 
     /**
      * Determines whether a mock is set as the instance of the facade.
      *
      * @return bool
      */
-    protected static function isMock()
-    {
-        $name = static::getFacadeAccessor();
+//    protected static function isMock()
+//    {
+//        $name = static::getFacadeAccessor();
 
-        return isset(static::$resolvedInstance[$name]) &&
-               static::$resolvedInstance[$name] instanceof MockInterface;
-    }
+//        return isset(static::$resolvedInstance[$name]) &&
+//               static::$resolvedInstance[$name] instanceof MockInterface;
+//    }
 
     /**
      * Get the mockable class for the bound instance.

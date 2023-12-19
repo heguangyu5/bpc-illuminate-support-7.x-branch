@@ -181,6 +181,9 @@ trait EnumeratesValues
      */
     public function dump()
     {
+        throw new Exception('BPC TODO');
+        return; // bpc will drop statements after return
+
         (new Collection(func_get_args()))
             ->push($this->all())
             ->each(function ($item) {
@@ -232,7 +235,7 @@ trait EnumeratesValues
      */
     public function every($key, $operator = null, $value = null)
     {
-        if (func_num_args() === 1) {
+        if (is_null($operator) && is_null($value)) {
             $callback = $this->valueRetriever($key);
 
             foreach ($this as $k => $v) {
@@ -244,7 +247,7 @@ trait EnumeratesValues
             return true;
         }
 
-        return $this->every($this->operatorForWhere(...func_get_args()));
+        return $this->every($this->operatorForWhere($key, $operator, $value));
     }
 
     /**
@@ -257,7 +260,7 @@ trait EnumeratesValues
      */
     public function firstWhere($key, $operator = null, $value = null)
     {
-        return $this->first($this->operatorForWhere(...func_get_args()));
+        return $this->first($this->operatorForWhere($key, $operator, $value));
     }
 
     /**
@@ -389,9 +392,9 @@ trait EnumeratesValues
         $passed = [];
         $failed = [];
 
-        $callback = func_num_args() === 1
+        $callback = (is_null($operator) && is_null($value))
                 ? $this->valueRetriever($key)
-                : $this->operatorForWhere(...func_get_args());
+                : $this->operatorForWhere($key, $operator, $value);
 
         foreach ($this as $key => $item) {
             if ($callback($item, $key)) {
@@ -515,7 +518,7 @@ trait EnumeratesValues
      */
     public function where($key, $operator = null, $value = null)
     {
-        return $this->filter($this->operatorForWhere(...func_get_args()));
+        return $this->filter($this->operatorForWhere($key, $operator, $value));
     }
 
     /**
@@ -875,13 +878,11 @@ trait EnumeratesValues
      */
     protected function operatorForWhere($key, $operator = null, $value = null)
     {
-        if (func_num_args() === 1) {
+        if (is_null($operator) && is_null($value)) {
             $value = true;
 
             $operator = '=';
-        }
-
-        if (func_num_args() === 2) {
+        } else if (!is_null($operator) && is_null($value)) {
             $value = $operator;
 
             $operator = '=';

@@ -170,7 +170,7 @@ class Collection implements ArrayAccess, Enumerable
      */
     public function contains($key, $operator = null, $value = null)
     {
-        if (func_num_args() === 1) {
+        if (is_null($operator) && is_null($value)) {
             if ($this->useAsCallable($key)) {
                 $placeholder = new stdClass;
 
@@ -180,7 +180,7 @@ class Collection implements ArrayAccess, Enumerable
             return in_array($key, $this->items);
         }
 
-        return $this->contains($this->operatorForWhere(...func_get_args()));
+        return $this->contains($this->operatorForWhere($key, $operator, $value));
     }
 
     /**

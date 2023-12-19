@@ -257,14 +257,20 @@ class Arr
             // clean up before each pass
             $array = &$original;
 
+            $continueFlag = false;
             while (count($parts) > 1) {
                 $part = array_shift($parts);
 
                 if (isset($array[$part]) && is_array($array[$part])) {
                     $array = &$array[$part];
                 } else {
-                    continue 2;
+                    $continueFlag = true;
+                    break;
                 }
+            }
+
+            if ($continueFlag) {
+                continue;
             }
 
             unset($array[array_shift($parts)]);
@@ -609,9 +615,9 @@ class Arr
      */
     public static function sortRecursive($array)
     {
-        foreach ($array as &$value) {
+        foreach ($array as $idx => $value) {
             if (is_array($value)) {
-                $value = static::sortRecursive($value);
+                $array[$idx] = static::sortRecursive($value);
             }
         }
 
